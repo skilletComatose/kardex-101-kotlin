@@ -1,10 +1,11 @@
 package com.kotlinsping.catalogservice.service
 
-import com.kotlinsping.catalogservice.entity.Product
+import com.kotlinsping.catalogservice.dto.ProductDto
+import com.kotlinsping.catalogservice.dto.global.ResponseResult
 
 interface ProductService {
 
-    fun findAll(): List<Product?>
+    fun findAll(): ResponseResult<List<ProductDto>>
 
 //    fun createProduct(product: CreateProductDto?): Product?
 
