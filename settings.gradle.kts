@@ -1,1 +1,1 @@
-rootProject.name = "catalog-service"
+rootProject.name = "kardex-101-kotlin"
