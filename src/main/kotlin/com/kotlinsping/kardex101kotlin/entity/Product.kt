@@ -28,13 +28,13 @@ data class Product(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    val category: Category,
+    val category: Category?,
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime?,
 
     @Column(name = "updated_at")
     @UpdateTimestamp
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime?
 )

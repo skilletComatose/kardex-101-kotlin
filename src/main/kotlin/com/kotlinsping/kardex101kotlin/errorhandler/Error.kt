@@ -8,19 +8,21 @@ data class Error<T>(
     val error: T? = null
 ) {
     companion object {
-        fun <T> of(error: T): Error<T> {
-            return Error(error)
+        fun <T> of(t: T): Error<T> {
+            return Error(t)
         }
 
 
         fun fromBodyRequestErrors(
-            message: String,
             validationErrors: MethodArgumentNotValidException
         ): Error<List<FieldError>> {
-            val fieldErrors = validationErrors.bindingResult.fieldErrors.map {
+            return of(getBodyRequestErrors(validationErrors))
+        }
+
+        fun getBodyRequestErrors(validationErrors: MethodArgumentNotValidException): List<FieldError> {
+            return validationErrors.bindingResult.fieldErrors.map {
                 FieldError(it.field, it.defaultMessage ?: "Unknown error")
             }
-            return of(fieldErrors)
         }
     }
 }

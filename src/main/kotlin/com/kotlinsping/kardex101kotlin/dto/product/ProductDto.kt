@@ -1,4 +1,4 @@
-package com.kotlinsping.kardex101kotlin.dto
+package com.kotlinsping.kardex101kotlin.dto.product
 
 import com.kotlinsping.kardex101kotlin.entity.Category
 import java.math.BigDecimal

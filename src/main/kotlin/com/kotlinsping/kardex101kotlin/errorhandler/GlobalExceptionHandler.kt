@@ -1,5 +1,6 @@
 package com.kotlinsping.kardex101kotlin.errorhandler
 
+import com.kotlinsping.kardex101kotlin.dto.global.ResponseResult
 import mu.KotlinLogging
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -21,16 +22,19 @@ class GlobalExceptionHandler {
     fun genericException(error: Exception): ResponseEntity<Any> {
         logger.error { error }
         return ResponseEntity.internalServerError()
-            .body(Error.of(INTERNAL_SERVER_ERROR))
+            .body(ResponseResult.internalError<Any>(
+                INTERNAL_SERVER_ERROR
+            ))
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(error: MethodArgumentNotValidException): ResponseEntity<Any> {
         return ResponseEntity.badRequest()
             .body(
-                Error.fromBodyRequestErrors(
-                    REQUEST_BODY_ERROR,
-                    error
+                ResponseResult.badRequest<Any>(
+                    Error.getBodyRequestErrors(
+                        error
+                    )
                 )
             )
     }
@@ -38,15 +42,17 @@ class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException::class)
     fun handleNoResourceFoundException(error: NoResourceFoundException): ResponseEntity<Any> {
         return ResponseEntity.badRequest()
-            .body(Error.of(NO_RESOURCE_FOUND))
+            .body(ResponseResult.badRequest<Any>(
+                NO_RESOURCE_FOUND
+            ))
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     fun handleMethodArgumentTypeMismatchException(error: MethodArgumentTypeMismatchException): ResponseEntity<Any> {
         return ResponseEntity.badRequest()
             .body(
-                Error.of(
-                    FieldError(error.name, "Formato incorrecto")
+                ResponseResult.badRequest<Any>(
+                   listOf( FieldError(error.name, "Formato incorrecto"))
                 )
             )
     }
